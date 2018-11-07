@@ -5,7 +5,7 @@ import './Nav.css';
 class Nav extends Component {
   render() {
     let links = this.props.navlinks.map(navlink => (
-      <li>
+      <li key={navlink}>
         <NavLink to={`/${navlink}`}>{navlink}</NavLink>
       </li>
     ));
