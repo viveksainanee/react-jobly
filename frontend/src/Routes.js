@@ -7,6 +7,7 @@ import Profile from './Profile';
 import Login from './Login';
 import Company from './Company';
 
+//Creates routes for for all crucial jobly pages
 class Routes extends Component {
   render() {
     return (

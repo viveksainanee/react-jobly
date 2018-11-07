@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3001';
 
+//handles api requests to server then to jobly database
 class JoblyApi {
   static async request(endpoint, params = {}, verb = 'get') {
     // for now, hardcode a token for user "testuser"

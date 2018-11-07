@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import JoblyApi from './JoblyApi';
-import JobCards from './JobCard';
+import JobCard from './JobCard';
 
 class Company extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      company: {}
+      company: {jobs:[]}
     }
   }
 
   async componentDidMount() {
-    let response = await JoblyApi.request(`companies/${this.props.match.params.handle}`);
-    console.log(response);
-    this.setState({company: response.company})
+    let response = await JoblyApi.getCompany(this.props.match.params.handle);
+    this.setState({company: response})
   }
 
   render() {
-    this.state.company.jobs.map(job=> <JobCard />)
+    let jobCards = this.state.company.jobs.map(card=> <JobCard key={card.id} companyHandle={card.companyHandle} equity={card.equity} salary={card.salary} title={card.title}/>)
     return (
     
     <div>
-      <h3>{this.state.company.name}</h3>
-      <p></p>
+      <h1>{this.state.company.name}</h1>
+      <p>{this.state.company.description}</p>
+      {jobCards}
     </div>
     
     );

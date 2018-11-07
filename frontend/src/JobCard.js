@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+//Shows basic info on card used on company page and jobs page
 class JobCard extends Component {
   render() {
     return (

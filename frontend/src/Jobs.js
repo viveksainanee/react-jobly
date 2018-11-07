@@ -3,6 +3,7 @@ import Search from './Search';
 import JoblyApi from './JoblyApi';
 import JobCard from './JobCard';
 
+//This renders the job page with job cards 
 class Jobs extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class Jobs extends Component {
     this.updateCards = this.updateCards.bind(this);
   }
 
+  //Gets results from database and updates jobCards state
   async updateCards(searchTerm) {
     // Making the AJAX call to search for companies matching search
     let response = await JoblyApi.request(`jobs?search=${searchTerm}`);
