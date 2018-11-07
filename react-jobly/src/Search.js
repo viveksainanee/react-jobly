@@ -4,8 +4,10 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ''
+      search: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(evt) {
@@ -16,7 +18,8 @@ class Search extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.updateCards(...this.state);
+
+    this.props.updateCards(this.state.search);
   }
 
   render() {
@@ -26,8 +29,9 @@ class Search extends Component {
           <input
             type="text"
             name="search"
-            value={this.state.value}
+            value={this.state.search}
             id="search"
+            onChange={this.handleChange}
           />
           <button>Search</button>
         </form>

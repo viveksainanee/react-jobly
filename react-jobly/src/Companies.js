@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Search from './Search';
 import CompanyCard from './CompanyCard';
+import JoblyApi from './JoblyApi';
 
 class Companies extends Component {
   constructor(props) {
@@ -8,10 +9,13 @@ class Companies extends Component {
     this.state = {
       companyCards: []
     };
+    this.updateCards = this.updateCards.bind(this);
   }
 
-  updateCards(searchTerm) {
+  async updateCards(searchTerm) {
     // Making the AJAX call to search for companies matching search
+    let cards = await JoblyApi.request(`companies?search=${searchTerm}`);
+    console.log(cards);
   }
 
   render() {
@@ -19,7 +23,7 @@ class Companies extends Component {
     return (
       <div>
         Hello. Welcome to Companies, Silos.
-        <Search />
+        <Search updateCards={this.updateCards} />
         {companyCards}
       </div>
     );
