@@ -13,12 +13,12 @@ class Routes extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" render={() => <Home />} />
-          <Route exact path="/companies" render={() => <Companies />} />
-          <Route exact path="/companies/:handle" render={(props) => <Company {...props} />} />
-          <Route exact path="/jobs" render={() => <Jobs />} />
-          <Route exact path="/profile" render={() => <Profile />} />
-          <Route exact path="/login" render={() => <Login />} />
+          <Route exact path="/" render={() => <Home handleRefresh={this.props.handleRefresh} />} />
+          <Route exact path="/companies" render={() => <Companies handleRefresh={this.props.handleRefresh} currUser={this.props.currUser} />} />
+          <Route exact path="/companies/:handle" render={(props) => <Company handleRefresh={this.props.handleRefresh} currUser={this.props.currUser} {...props} />} />
+          <Route exact path="/jobs" render={() => <Jobs handleRefresh={this.props.handleRefresh} currUser={this.props.currUser} />} />
+          <Route exact path="/profile" render={() => <Profile handleRefresh={this.props.handleRefresh} currUser={this.props.currUser} />} />
+          <Route exact path="/login" render={() => <Login handleRefresh={this.props.handleRefresh} currUser={this.props.currUser} handleLogin={this.props.handleLogin}/>} />
           <Redirect to="/" />
         </Switch>
       </div>

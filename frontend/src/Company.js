@@ -15,8 +15,13 @@ class Company extends Component {
   async componentDidMount() {
     //error handling
     try {
+      this.props.handleRefresh();
+      if (this.props.currUser) {
       let response = await JoblyApi.getCompany(this.props.match.params.handle);
       this.setState({ company: response });
+      } else {
+        throw 'Unauthorized';
+      }
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({

@@ -42,13 +42,18 @@ class Login extends Component {
     try {
       evt.preventDefault();
 
+      // The if side of this handles a successful login
       if (this.state.activeForm === 'login') {
         let token = await JoblyApi.login(
           this.state.username,
           this.state.password
         );
+        localStorage.setItem('token', token);
         console.log('LOGGED IN SUCCESSFULLY');
         this.setState({ username: '', password: '' });
+        this.props.handleLogin();
+
+      // The else side of this handles a successful registrations
       } else {
         let token = await JoblyApi.register(
           this.state.username,
@@ -57,6 +62,10 @@ class Login extends Component {
           this.state.firstName,
           this.state.lastName
         );
+        
+        //put token in local storage
+        localStorage.setItem('token', token);
+
         this.setState({
           username: '',
           password: '',
