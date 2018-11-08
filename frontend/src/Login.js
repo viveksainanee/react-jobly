@@ -7,6 +7,7 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
+
       password: '',
       firstName: '',
       lastName: '',
@@ -28,12 +29,14 @@ class Login extends Component {
 
   changeToLogin() {
     this.setState({
+      errors: [],
       activeForm: 'login'
     });
   }
 
   changeToSignup() {
     this.setState({
+      errors: [],
       activeForm: 'signup'
     });
   }
@@ -51,9 +54,10 @@ class Login extends Component {
         localStorage.setItem('token', token);
         console.log('LOGGED IN SUCCESSFULLY');
         this.setState({ username: '', password: '' });
-        this.props.handleLogin();
+        await this.props.handleLogin();
+        this.props.history.push('/jobs');
 
-      // The else side of this handles a successful registrations
+        // The else side of this handles a successful registrations
       } else {
         let token = await JoblyApi.register(
           this.state.username,
@@ -62,7 +66,7 @@ class Login extends Component {
           this.state.firstName,
           this.state.lastName
         );
-        
+
         //put token in local storage
         localStorage.setItem('token', token);
 
@@ -78,7 +82,7 @@ class Login extends Component {
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({
-        errors: [...st.errors, err]
+        errors: [err]
       }));
     }
   }

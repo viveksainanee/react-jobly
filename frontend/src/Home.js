@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 
 class Home extends Component {
-
-  componentDidMount() {
-    this.props.handleRefresh();
-
-  }
-
   render() {
-    return <div>Hello. Welcome home, son.</div>;
+    if (this.props.currUser) {
+      return <div>Hello. Welcome home, son.</div>;
+    }
+    return <div>Go login </div>;
   }
 }
 

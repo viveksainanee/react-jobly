@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 import Routes from './Routes';
-import NavBar from './NavBar';
 import jwt from 'jsonwebtoken';
+import NavBar from './NavBar';
+import JoblyApi from './JoblyApi';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currUser: null
+      currUser: null,
+      isLoading: true
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleRefresh = this.handleRefresh.bind(this);
   }
 
-  handleRefresh() {
+  async componentDidMount() {
     let token = localStorage.getItem('token');
-    let currUser = jwt.decode(token);
-    let username = currUser ? currUser.username : null;
-    this.setState({ currUser: username });
+    if (token) {
+      let payload = jwt.decode(token);
+      let currUser = await JoblyApi.getUser(payload.username);
+      this.setState({ currUser });
+    }
+    this.setState({ isLoading: false });
   }
 
   handleLogout() {
@@ -26,13 +30,18 @@ class App extends Component {
     this.setState({ currUser: null });
   }
 
-  handleLogin() {
+  async handleLogin() {
     let token = localStorage.getItem('token');
-    let currUser = jwt.decode(token);
-    this.setState({ currUser: currUser.username });
+    let payload = jwt.decode(token);
+    let currUser = await JoblyApi.getUser(payload.username);
+    this.setState({ currUser });
   }
 
   render() {
+    if (this.state.isLoading) {
+      //show the loading indicator
+      return <h1> Loading..</h1>;
+    }
     return (
       <div>
         <NavBar
@@ -40,7 +49,7 @@ class App extends Component {
           navlinks={this.props.navlinks}
           handleLogout={this.handleLogout}
         />
-        <Routes handleRefresh={this.handleRefresh} currUser={this.state.currUser} handleLogin={this.handleLogin} />
+        <Routes currUser={this.state.currUser} handleLogin={this.handleLogin} />
       </div>
     );
   }

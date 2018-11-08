@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Search from './Search';
 import JoblyApi from './JoblyApi';
 import Alert from './Alert';
@@ -8,6 +9,7 @@ import JobCard from './JobCard';
 class Jobs extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       jobCards: [],
       errors: []
@@ -17,13 +19,8 @@ class Jobs extends Component {
 
   async componentDidMount() {
     try {
-      this.props.handleRefresh();
-      if (this.props.currUser) {
       let response = await JoblyApi.getJobs('');
       this.setState({ jobCards: response });
-      } else {
-        throw 'Unauthorized';
-      }
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({
@@ -48,6 +45,9 @@ class Jobs extends Component {
   }
 
   render() {
+    if (this.props.currUser === null) {
+      return <Redirect to="/login" />;
+    }
     let jobCards = this.state.jobCards.map(card => (
       <JobCard
         key={card.id}

@@ -6,18 +6,53 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: []
+      errors: [],
+      user: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        photo_url: '',
+        password: ''
+      }
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(evt) {
+    this.setState({
+      user: {
+        ...this.state.user,
+        [evt.target.name]: evt.target.value
+      }
+    });
+  }
+
+  async handleSubmit(evt) {
+    evt.preventDefault();
+    try {
+      let photo_url = this.state.user.photo_url
+        ? this.state.user.photo_url
+        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg';
+
+      let user = await JoblyApi.patchUser({ ...this.state.user, photo_url });
+      this.setState({ user });
+    } catch (err) {
+      this.setState(st => ({ errors: [...st.errors] }));
+    }
   }
 
   async componentDidMount() {
     try {
       await this.props.handleRefresh(); //await
       let user = await JoblyApi.getUser(this.props.currUser);
-      console.log(user);
+      user.photo_url = user.photo_url
+        ? user.photo_url
+        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg';
+
       this.setState({ user });
     } catch (err) {
-      this.setState(st => ({errors: [...st.errors]}));
+      this.setState(st => ({ errors: [...st.errors] }));
     }
   }
 
@@ -25,41 +60,45 @@ class Profile extends Component {
     let profileInputs = [
       {
         label: 'First Name',
-        inputName: 'firstName',
+        inputName: 'first_name',
         type: 'text',
-        placeholder: ''
+        value: this.state.user.first_name
       },
       {
         label: 'Last Name',
-        inputName: 'lastName',
-        type: 'text'
+        inputName: 'last_name',
+        type: 'text',
+        value: this.state.user.last_name
       },
       {
         label: 'Email',
         inputName: 'email',
-        type: 'email'
+        type: 'email',
+        value: this.state.user.email
       },
       {
-        label: 'Image URL',
-        inputName: 'imageUrl',
-        type: 'text'
+        label: 'Photo URL',
+        inputName: 'photo_url',
+        type: 'text',
+        value: this.state.user.photo_url
       },
       {
-        label: 'Password',
+        label: 'Re-type Password',
         inputName: 'password',
-        type: 'password'
+        type: 'password',
+        value: this.state.user.password
       }
     ];
 
     let inputElements = profileInputs.map(input => (
-      <div>
+      <div key={input.inputName}>
         <label htmlFor={input.inputName}>{input.label}</label>
         <input
-          type="text"
+          type="text" // {input.type}
           name={input.inputName}
-          value={this.state[input.inputName]}
           id={input.inputName}
           onChange={this.handleChange}
+          value={input.value}
         />
       </div>
     ));

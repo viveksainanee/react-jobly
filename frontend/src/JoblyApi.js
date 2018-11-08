@@ -11,7 +11,7 @@ class JoblyApi {
       '3R1c2VyIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE1NDE1NjQ2Nzl9.LYDHSkl81gEm' +
       '7jfHv9wJhzD4ndpuBkSzBan8Nirb6UY';
 
-    console.debug('API Call:', endpoint, params, verb);
+    console.log('API Call:', endpoint, params, verb);
 
     let q;
 
@@ -65,6 +65,24 @@ class JoblyApi {
 
   static async getUser(username) {
     let res = await JoblyApi.request(`users/${username}`);
+    return res.user;
+  }
+
+  static async patchUser({
+    username,
+    password,
+    email,
+    first_name,
+    last_name,
+    photo_url
+  }) {
+    console.log('#1 - entering patch user');
+    console.log('Photo url is ', photo_url);
+    let res = await JoblyApi.request(
+      `users/${username}`,
+      { password, email, first_name, last_name, photo_url },
+      'patch'
+    );
     return res.user;
   }
 }

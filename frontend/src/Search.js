@@ -18,7 +18,7 @@ class Search extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.setState({search: ''});
+    this.setState({ search: '' });
     this.props.updateCards(this.state.search);
   }
 

@@ -4,6 +4,7 @@ import CompanyCard from './CompanyCard';
 import JoblyApi from './JoblyApi';
 import Alert from './Alert';
 import logoDefaultUrl from './company-logo.png';
+import { Redirect } from 'react-router-dom';
 
 // Comonent renders company page which shows a list of CompanyCards
 class Companies extends Component {
@@ -18,12 +19,9 @@ class Companies extends Component {
 
   async componentDidMount() {
     try {
-      this.props.handleRefresh();
       if (this.props.currUser) {
-      let response = await JoblyApi.getCompanies('');
-      this.setState(st => ({ companyCards: response }));
-      } else {
-        throw 'Unauthorized';
+        let response = await JoblyApi.getCompanies('');
+        this.setState(st => ({ companyCards: response }));
       }
     } catch (err) {
       // set State this.state.errors = with new error
@@ -49,6 +47,10 @@ class Companies extends Component {
   }
 
   render() {
+    if (this.props.currUser === null) {
+      return <Redirect to="/login" />;
+    }
+
     //This converts companyCards from state to company card components
     let companyCards = this.state.companyCards.map(card => (
       <CompanyCard
