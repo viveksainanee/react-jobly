@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Routes from './Routes';
-import Nav from './Nav';
+import NavBar from './NavBar';
 
 class App extends Component {
   static defaultProps = {
@@ -10,7 +10,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Nav navlinks={this.props.navlinks} />
+        <NavBar navlinks={this.props.navlinks} />
         <Routes />
       </div>
     );

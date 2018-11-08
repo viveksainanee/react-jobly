@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3001';
 
+//handles api requests to server then to jobly database
 class JoblyApi {
   static async request(endpoint, params = {}, verb = 'get') {
     // for now, hardcode a token for user "testuser"
@@ -36,6 +37,16 @@ class JoblyApi {
   static async getCompany(handle) {
     let res = await this.request(`companies/${handle}`);
     return res.company;
+  }
+
+  static async getJobs(searchTerm) {
+    let res = await JoblyApi.request(`jobs?search=${searchTerm}`);
+    return res.jobs;
+  }
+
+  static async getCompanies(searchTerm) {
+    let res = await JoblyApi.request(`companies?search=${searchTerm}`);
+    return res.companies;
   }
 }
 
