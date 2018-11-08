@@ -15,12 +15,17 @@ class Companies extends Component {
     this.updateCards = this.updateCards.bind(this);
   }
 
+  async componentDidMount() {
+    let response = await JoblyApi.getCompanies('');
+    this.setState(st => ({companyCards: response}));
+  }
+
   //This update cards function is user for Search Component and updates state
   async updateCards(searchTerm) {
     // Making the AJAX call to search for companies matching search
-    let response = await JoblyApi.request(`companies?search=${searchTerm}`);
+    let response = await JoblyApi.getCompanies(searchTerm);
     console.log(response.companies);
-    this.setState(st => ({companyCards: response.companies}));
+    this.setState(st => ({companyCards: response}));
   }
 
   render() {

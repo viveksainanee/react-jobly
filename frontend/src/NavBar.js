@@ -3,14 +3,14 @@ import { NavLink } from 'react-router-dom';
 import './Nav.css';
 
 //Top navigation used everywhere on app/site 
-class Nav extends Component {
+class NavBar extends Component {
   render() {
     //This dynamically creates nav links based on props
     let links = this.props.navlinks.map(navlink => (
       <li key={navlink}>
         <NavLink to={`/${navlink}`}>{navlink}</NavLink>
       </li>
-    ));
+    ));//refactor
 
     return (
       <div>
@@ -27,4 +27,4 @@ class Nav extends Component {
   }
 }
 
-export default Nav;
+export default NavBar;

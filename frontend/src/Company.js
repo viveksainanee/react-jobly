@@ -10,7 +10,7 @@ class Company extends Component {
     }
   }
 
-  async componentDidMount() {
+  async componentDidMount() { //error handling
     let response = await JoblyApi.getCompany(this.props.match.params.handle);
     this.setState({company: response})
   }
