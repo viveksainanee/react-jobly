@@ -2,15 +2,30 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Nav.css';
 
-//Top navigation used everywhere on app/site 
+//Top navigation used everywhere on app/site
 class NavBar extends Component {
   render() {
+    let navLinks = this.props.currUser
+      ? ['companies', 'jobs', 'profile', 'logout']
+      : ['login'];
+
     //This dynamically creates nav links based on props
-    let links = this.props.navlinks.map(navlink => (
-      <li key={navlink}>
-        <NavLink to={`/${navlink}`}>{navlink}</NavLink>
-      </li>
-    ));//refactor
+    let navLinkComponents = navLinks.map(navLink => {
+      if (navLink === 'logout') {
+        return (
+          <li>
+            <NavLink onClick={this.props.handleLogout} to="/login">
+              logout
+            </NavLink>
+          </li>
+        );
+      }
+      return (
+        <li key={navLink}>
+          <NavLink to={`/${navLink}`}>{navLink}</NavLink>
+        </li>
+      );
+    });
 
     return (
       <div>
@@ -20,7 +35,7 @@ class NavBar extends Component {
               Jobly
             </NavLink>
           </li>
-          {links}
+          {navLinkComponents}
         </ul>
       </div>
     );
