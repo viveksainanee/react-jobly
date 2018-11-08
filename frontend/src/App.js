@@ -11,6 +11,14 @@ class App extends Component {
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
+  }
+
+  handleRefresh() {
+    let token = localStorage.getItem('token');
+    let currUser = jwt.decode(token);
+    let username = currUser ? currUser.username : null;
+    this.setState({ currUser: username });
   }
 
   handleLogout() {
@@ -27,8 +35,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar currUser={this.state.currUser} navlinks={this.props.navlinks} handleLogout={this.handleLogout}/>
-        <Routes currUser={this.state.currUser} handleLogin={this.handleLogin} />
+        <NavBar
+          currUser={this.state.currUser}
+          navlinks={this.props.navlinks}
+          handleLogout={this.handleLogout}
+        />
+        <Routes handleRefresh={this.handleRefresh} currUser={this.state.currUser} handleLogin={this.handleLogin} />
       </div>
     );
   }

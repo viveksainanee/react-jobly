@@ -17,8 +17,13 @@ class Jobs extends Component {
 
   async componentDidMount() {
     try {
+      this.props.handleRefresh();
+      if (this.props.currUser) {
       let response = await JoblyApi.getJobs('');
       this.setState({ jobCards: response });
+      } else {
+        throw 'Unauthorized';
+      }
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({

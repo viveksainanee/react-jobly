@@ -18,8 +18,13 @@ class Companies extends Component {
 
   async componentDidMount() {
     try {
+      this.props.handleRefresh();
+      if (this.props.currUser) {
       let response = await JoblyApi.getCompanies('');
       this.setState(st => ({ companyCards: response }));
+      } else {
+        throw 'Unauthorized';
+      }
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({
