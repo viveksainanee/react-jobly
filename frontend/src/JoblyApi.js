@@ -48,6 +48,20 @@ class JoblyApi {
     let res = await JoblyApi.request(`companies?search=${searchTerm}`);
     return res.companies;
   }
+
+  static async login(username, password) {
+    let res = await JoblyApi.request(`login`, { username, password }, 'post');
+    return res.token;
+  }
+
+  static async register(username, password, email, first_name, last_name) {
+    let res = await JoblyApi.request(
+      `users`,
+      { username, password, email, first_name, last_name },
+      'post'
+    );
+    return res.token;
+  }
 }
 
 export default JoblyApi;
