@@ -8,6 +8,7 @@ class Company extends Component {
     super(props);
     this.state = {
       company: { jobs: [] },
+      myApps: [],
       errors: []
     };
   }
@@ -15,14 +16,13 @@ class Company extends Component {
   async componentDidMount() {
     //error handling
     try {
-      if (this.props.currUser) {
-        let response = await JoblyApi.getCompany(
-          this.props.match.params.handle
-        );
-        this.setState({ company: response });
-      } else {
-        throw 'Unauthorized';
-      }
+      let response = await JoblyApi.getCompany(this.props.match.params.handle);
+
+      let myApps = await JoblyApi.myJobApplications(
+        this.props.currUser.username
+      );
+
+      this.setState({ company: response, myApps });
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({
@@ -32,18 +32,33 @@ class Company extends Component {
   }
 
   render() {
-    let jobCards = this.state.company.jobs.map(card => (
-      <JobCard
-        key={card.id}
-        id={card.id}
-        companyHandle={card.companyHandle}
-        equity={card.equity}
-        salary={card.salary}
-        title={card.title}
-        currUser={this.props.currUser}
-        state={card.state}
-      />
-    ));
+    let jobIDs = new Set();
+    for (let i = 0; i < this.state.myApps.length; i++) {
+      jobIDs.add(this.state.myApps[i].job_id);
+    }
+    console.log(jobIDs);
+
+    let jobCards = this.state.company.jobs.map(card => {
+      //if this card ID is in this.state.myApps, state should be 'applied'
+      let state;
+
+      if (jobIDs.has(card.id)) {
+        state = 'applied';
+      }
+
+      return (
+        <JobCard
+          key={card.id}
+          id={card.id}
+          companyHandle={card.companyHandle}
+          equity={card.equity}
+          salary={card.salary}
+          title={card.title}
+          currUser={this.props.currUser}
+          state={state}
+        />
+      );
+    });
 
     let errorsAlerts = this.state.errors.map(err => (
       <Alert key={err} text={err} type="danger" />

@@ -74,8 +74,6 @@ class JoblyApi {
     last_name,
     photo_url
   }) {
-    console.log('#1 - entering patch user');
-    console.log('Photo url is ', photo_url);
     let res = await JoblyApi.request(
       `users/${username}`,
       { password, email, first_name, last_name, photo_url },
@@ -94,6 +92,12 @@ class JoblyApi {
       'post'
     );
     return res.message;
+  }
+
+  static async myJobApplications(username) {
+    let res = await JoblyApi.request(`users/${username}/jobs-applied-to`);
+
+    return res.jobsAppliedTo;
   }
 }
 
