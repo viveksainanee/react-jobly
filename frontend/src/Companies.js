@@ -12,7 +12,8 @@ class Companies extends Component {
     super(props);
     this.state = {
       companyCards: [],
-      errors: []
+      errors: [],
+      isLoading: true
     };
     this.updateCards = this.updateCards.bind(this);
   }
@@ -21,7 +22,7 @@ class Companies extends Component {
     try {
       if (this.props.currUser) {
         let response = await JoblyApi.getCompanies('');
-        this.setState(st => ({ companyCards: response }));
+        this.setState(st => ({ companyCards: response, isLoading: false }));
       }
     } catch (err) {
       // set State this.state.errors = with new error
@@ -66,6 +67,10 @@ class Companies extends Component {
       <Alert key={err} text={err} type="danger" />
     ));
 
+    if(this.state.isLoading) {
+      return (<h1>Loading...</ h1>)
+    }
+
     // if theres stuff in err Array, then return alert
     if (this.state.errors.length > 0) {
       return <div>{errorsAlerts}</div>;
@@ -76,6 +81,7 @@ class Companies extends Component {
         Hello. Welcome to Companies, Silos.
         <Search updateCards={this.updateCards} />
         {companyCards}
+        {this.state.companyCards.length ? null : <h1>Sorry, no matching companies</h1>}
       </div>
     );
   }

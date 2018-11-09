@@ -64,7 +64,6 @@ class Login extends Component {
           this.state.first_name,
           this.state.last_name
         );
-        debugger;
 
         //put token in local storage
         localStorage.setItem('token', token);

@@ -9,7 +9,8 @@ class Company extends Component {
     this.state = {
       company: { jobs: [] },
       myApps: [],
-      errors: []
+      errors: [],
+      isLoading: true
     };
   }
 
@@ -22,7 +23,7 @@ class Company extends Component {
         this.props.currUser.username
       );
 
-      this.setState({ company: response, myApps });
+      this.setState({ company: response, myApps, isLoading: false });
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({
@@ -44,6 +45,10 @@ class Company extends Component {
 
       if (jobIDs.has(card.id)) {
         state = 'applied';
+      }
+
+      if(this.state.isLoading) {
+        return (<h1>Loading...</ h1>)
       }
 
       return (

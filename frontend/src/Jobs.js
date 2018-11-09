@@ -12,7 +12,8 @@ class Jobs extends Component {
 
     this.state = {
       jobCards: [],
-      errors: []
+      errors: [], 
+      isLoading: true
     };
     this.updateCards = this.updateCards.bind(this);
   }
@@ -20,7 +21,7 @@ class Jobs extends Component {
   async componentDidMount() {
     try {
       let response = await JoblyApi.getJobs('');
-      this.setState({ jobCards: response });
+      this.setState({ jobCards: response, isLoading: false });
       console.log(response);
     } catch (err) {
       // set State this.state.errors = with new error
@@ -46,6 +47,10 @@ class Jobs extends Component {
   }
 
   render() {
+    if(this.state.isLoading) {
+      return (<h1>Loading...</ h1>)
+    }
+
     if (this.props.currUser === null) {
       return <Redirect to="/login" />;
     }
@@ -74,6 +79,7 @@ class Jobs extends Component {
       <div>
         <Search updateCards={this.updateCards} />
         {jobCards}
+        {this.state.jobCards.length ? null : <h1>Sorry, no matching jobs</h1>}
       </div>
     );
   }
