@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Routes from './Routes';
 import jwt from 'jsonwebtoken';
-import NavBar from './NavBar';
+import NavigationBar from './NavigationBar';
 import JoblyApi from './JoblyApi';
 
 class App extends Component {
@@ -44,7 +44,7 @@ class App extends Component {
     }
     return (
       <div>
-        <NavBar
+        <NavigationBar
           currUser={this.state.currUser}
           navlinks={this.props.navlinks}
           handleLogout={this.handleLogout}

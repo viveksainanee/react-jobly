@@ -1,10 +1,11 @@
+import { Navbar, NavbarBrand, NavItem, Nav } from 'reactstrap';
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import uuid from 'uuid/v4';
 import './Nav.css';
 
 //Top navigation used everywhere on app/site
-class NavBar extends Component {
+class NavigationBar extends Component {
   render() {
     let navLinks = this.props.currUser
       ? ['companies', 'jobs', 'profile', 'logout']
@@ -14,33 +15,27 @@ class NavBar extends Component {
     let navLinkComponents = navLinks.map(navLink => {
       if (navLink === 'logout') {
         return (
-          <li key={uuid()}>
+          <NavItem key={uuid()}>
             <NavLink onClick={this.props.handleLogout} to="/login">
               logout
             </NavLink>
-          </li>
+          </NavItem>
         );
       }
       return (
-        <li key={navLink}>
+        <NavItem className='nav'>
           <NavLink to={`/${navLink}`}>{navLink}</NavLink>
-        </li>
+        </NavItem>
       );
     });
 
     return (
-      <div>
-        <ul>
-          <li>
-            <NavLink exact to="/">
-              Jobly
-            </NavLink>
-          </li>
-          {navLinkComponents}
-        </ul>
-      </div>
+      <Navbar>
+        <NavbarBrand href="/">Jobly</NavbarBrand>
+        <Nav className='mr-auto'>{navLinkComponents}</Nav>
+      </Navbar>
     );
   }
 }
 
-export default NavBar;
+export default NavigationBar;

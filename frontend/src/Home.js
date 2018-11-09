@@ -7,7 +7,7 @@ class Home extends Component {
     if (this.props.currUser) {
       return <div>Hello. Welcome home, {this.props.currUser.first_name}.</div>;
     }
-    return <Link to='/login'><Button>Get Started</Button></Link>;
+    return <Link to='/login'><Button color='success'>Get Started</Button></Link>;
   }
 }
 
