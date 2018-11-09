@@ -42,8 +42,12 @@ class App extends Component {
       //show the loading indicator
       return <h1> Loading..</h1>;
     }
+    let styles = {
+      width: '100%',
+      height: '100%'
+    };
     return (
-      <div>
+      <div style={styles}>
         <NavigationBar
           currUser={this.state.currUser}
           navlinks={this.props.navlinks}

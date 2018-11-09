@@ -23,7 +23,7 @@ class NavigationBar extends Component {
         );
       }
       return (
-        <NavItem className='nav'>
+        <NavItem className="nav">
           <NavLink to={`/${navLink}`}>{navLink}</NavLink>
         </NavItem>
       );
@@ -32,7 +32,7 @@ class NavigationBar extends Component {
     return (
       <Navbar>
         <NavbarBrand href="/">Jobly</NavbarBrand>
-        <Nav className='mr-auto'>{navLinkComponents}</Nav>
+        <Nav className="mr-auto">{navLinkComponents}</Nav>
       </Navbar>
     );
   }

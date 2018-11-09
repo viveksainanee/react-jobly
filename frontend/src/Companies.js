@@ -3,7 +3,7 @@ import Search from './Search';
 import CompanyCard from './CompanyCard';
 import JoblyApi from './JoblyApi';
 import Alert from './Alert';
-import logoDefaultUrl from './company-logo.png';
+import logoDefaultUrl from './images/company-logo.png';
 import { Redirect } from 'react-router-dom';
 
 // Comonent renders company page which shows a list of CompanyCards
@@ -67,8 +67,8 @@ class Companies extends Component {
       <Alert key={err} text={err} type="danger" />
     ));
 
-    if(this.state.isLoading) {
-      return (<h1>Loading...</ h1>)
+    if (this.state.isLoading) {
+      return <h1>Loading...</h1>;
     }
 
     // if theres stuff in err Array, then return alert
@@ -81,7 +81,9 @@ class Companies extends Component {
         Hello. Welcome to Companies, Silos.
         <Search updateCards={this.updateCards} />
         {companyCards}
-        {this.state.companyCards.length ? null : <h1>Sorry, no matching companies</h1>}
+        {this.state.companyCards.length ? null : (
+          <h1>Sorry, no matching companies</h1>
+        )}
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import JoblyApi from './JoblyApi';
 import Alert from './Alert';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class Login extends Component {
   constructor(props) {
@@ -144,8 +145,8 @@ class Login extends Component {
     if (this.state.activeForm === 'login') {
       inputs = loginInputs.map(input => (
         <div>
-          <label htmlFor={input.inputName}>{input.label}</label>
-          <input
+          <Label htmlFor={input.inputName}>{input.label}</Label>
+          <Input
             type={input.type}
             name={input.inputName}
             value={this.state[input.inputName]}
@@ -157,8 +158,8 @@ class Login extends Component {
     } else {
       inputs = signupInputs.map(input => (
         <div>
-          <label htmlFor={input.inputName}>{input.label}</label>
-          <input
+          <Label htmlFor={input.inputName}>{input.label}</Label>
+          <Input
             type={input.type}
             name={input.inputName}
             value={this.state[input.inputName]}
@@ -170,15 +171,17 @@ class Login extends Component {
     }
 
     return (
-      <div>
-        <button onClick={this.changeToLogin}>Login </button>
-        <button onClick={this.changeToSignup}> Signup </button>
-        <form onSubmit={this.handleSubmit}>
-          {inputs}
+      <div className="max-width-parent row">
+        <div className="col-12 col-md-6 ">
+          <Button onClick={this.changeToLogin}>Login </Button>
+          <Button onClick={this.changeToSignup}> Signup </Button>
+          <Form onSubmit={this.handleSubmit}>
+            {inputs}
 
-          <button>Submit</button>
-        </form>
-        {this.state.errors.length > 0 ? errorsAlerts : null}
+            <Button>Submit</Button>
+          </Form>
+          {this.state.errors.length > 0 ? errorsAlerts : null}
+        </div>
       </div>
     );
   }
