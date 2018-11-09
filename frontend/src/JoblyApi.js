@@ -6,10 +6,8 @@ const BASE_URL = 'http://localhost:3001';
 class JoblyApi {
   static async request(endpoint, params = {}, verb = 'get') {
     // for now, hardcode a token for user "testuser"
-    let _token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc' +
-      '3R1c2VyIiwiaXNfYWRtaW4iOmZhbHNlLCJpYXQiOjE1NDE1NjQ2Nzl9.LYDHSkl81gEm' +
-      '7jfHv9wJhzD4ndpuBkSzBan8Nirb6UY';
+
+    let _token = localStorage.getItem('token');
 
     console.log('API Call:', endpoint, params, verb);
 
@@ -84,6 +82,18 @@ class JoblyApi {
       'patch'
     );
     return res.user;
+  }
+
+  // /:id/apply
+  //(req.params.id, req.username, state)
+
+  static async applyToJob(username, id, state) {
+    let res = await JoblyApi.request(
+      `jobs/${id}/apply`,
+      { username, state },
+      'post'
+    );
+    return res.message;
   }
 }
 

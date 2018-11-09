@@ -35,10 +35,13 @@ class Company extends Component {
     let jobCards = this.state.company.jobs.map(card => (
       <JobCard
         key={card.id}
+        id={card.id}
         companyHandle={card.companyHandle}
         equity={card.equity}
         salary={card.salary}
         title={card.title}
+        currUser={this.props.currUser}
+        state={card.state}
       />
     ));
 

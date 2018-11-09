@@ -21,6 +21,7 @@ class Jobs extends Component {
     try {
       let response = await JoblyApi.getJobs('');
       this.setState({ jobCards: response });
+      console.log(response);
     } catch (err) {
       // set State this.state.errors = with new error
       this.setState(st => ({
@@ -51,10 +52,13 @@ class Jobs extends Component {
     let jobCards = this.state.jobCards.map(card => (
       <JobCard
         key={card.id}
+        id={card.id}
         companyHandle={card.companyHandle}
         equity={card.equity}
         salary={card.salary}
         title={card.title}
+        state={card.state}
+        currUser={this.props.currUser}
       />
     ));
     let errorsAlerts = this.state.errors.map(err => (

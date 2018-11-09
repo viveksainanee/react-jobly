@@ -7,10 +7,9 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
-
       password: '',
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
       errors: [],
       activeForm: 'login'
@@ -52,7 +51,6 @@ class Login extends Component {
           this.state.password
         );
         localStorage.setItem('token', token);
-        console.log('LOGGED IN SUCCESSFULLY');
         this.setState({ username: '', password: '' });
         await this.props.handleLogin();
         this.props.history.push('/jobs');
@@ -63,9 +61,10 @@ class Login extends Component {
           this.state.username,
           this.state.password,
           this.state.email,
-          this.state.firstName,
-          this.state.lastName
+          this.state.first_name,
+          this.state.last_name
         );
+        debugger;
 
         //put token in local storage
         localStorage.setItem('token', token);
@@ -73,11 +72,12 @@ class Login extends Component {
         this.setState({
           username: '',
           password: '',
-          firstName: '',
-          lastName: '',
+          first_name: '',
+          last_name: '',
           email: ''
         });
-        console.log('SIGNUP  SUCCESSFULLY');
+        await this.props.handleLogin();
+        this.props.history.push('/jobs');
       }
     } catch (err) {
       // set State this.state.errors = with new error
@@ -92,13 +92,52 @@ class Login extends Component {
       <Alert key={err} text={err} type="danger" />
     ));
 
-    let loginInputs = ['username', 'password'];
+    let loginInputs = [
+      {
+        label: 'Username',
+        inputName: 'username',
+        type: 'text',
+        value: this.state.username
+      },
+      {
+        label: 'Password',
+        inputName: 'password',
+        type: 'password',
+        value: this.state.password
+      }
+    ];
+
     let signupInputs = [
-      'username',
-      'password',
-      'email',
-      'firstName',
-      'lastName'
+      {
+        label: 'Username',
+        inputName: 'username',
+        type: 'text',
+        value: this.state.username
+      },
+      {
+        label: 'Password',
+        inputName: 'password',
+        type: 'password',
+        value: this.state.password
+      },
+      {
+        label: 'Email',
+        inputName: 'email',
+        type: 'text',
+        value: this.state.email
+      },
+      {
+        label: 'First Name',
+        inputName: 'first_name',
+        type: 'text',
+        value: this.state.first_name
+      },
+      {
+        label: 'Last Name',
+        inputName: 'last_name',
+        type: 'text',
+        value: this.state.last_name
+      }
     ];
 
     let inputs;
@@ -106,12 +145,12 @@ class Login extends Component {
     if (this.state.activeForm === 'login') {
       inputs = loginInputs.map(input => (
         <div>
-          <label htmlFor={input}>{input}</label>
+          <label htmlFor={input.inputName}>{input.label}</label>
           <input
-            type="text"
-            name={input}
-            value={this.state[input]}
-            id={input}
+            type={input.type}
+            name={input.inputName}
+            value={this.state[input.inputName]}
+            id={input.inputName}
             onChange={this.handleChange}
           />
         </div>
@@ -119,12 +158,12 @@ class Login extends Component {
     } else {
       inputs = signupInputs.map(input => (
         <div>
-          <label htmlFor={input}>{input}</label>
+          <label htmlFor={input.inputName}>{input.label}</label>
           <input
-            type="text"
-            name={input}
-            value={this.state[input]}
-            id={input}
+            type={input.type}
+            name={input.inputName}
+            value={this.state[input.inputName]}
+            id={input.inputName}
             onChange={this.handleChange}
           />
         </div>

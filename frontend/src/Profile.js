@@ -36,6 +36,7 @@ class Profile extends Component {
         : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg';
 
       let user = await JoblyApi.patchUser({ ...this.state.user, photo_url });
+      user.password = '';
       this.setState({ user });
     } catch (err) {
       this.setState(st => ({ errors: [...st.errors] }));
@@ -44,8 +45,9 @@ class Profile extends Component {
 
   async componentDidMount() {
     try {
-      await this.props.handleRefresh(); //await
-      let user = await JoblyApi.getUser(this.props.currUser);
+      let user = this.props.currUser;
+      user.password = '';
+
       user.photo_url = user.photo_url
         ? user.photo_url
         : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg';
@@ -94,7 +96,7 @@ class Profile extends Component {
       <div key={input.inputName}>
         <label htmlFor={input.inputName}>{input.label}</label>
         <input
-          type="text" // {input.type}
+          type={input.type}
           name={input.inputName}
           id={input.inputName}
           onChange={this.handleChange}
@@ -113,7 +115,7 @@ class Profile extends Component {
 
     return (
       <div>
-        <div>Username: {this.props.currUser}</div>
+        <div>Username: {this.props.currUser.username}</div>
         <form onSubmit={this.handleSubmit}>
           {inputElements}
 
