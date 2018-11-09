@@ -13,7 +13,7 @@ class Routes extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/" render={() => <Home currUser={this.props.currUser} />} />
           <Route
             exact
             path="/companies"

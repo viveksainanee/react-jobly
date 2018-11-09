@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 class Home extends Component {
   render() {
     if (this.props.currUser) {
-      return <div>Hello. Welcome home, son.</div>;
+      return <div>Hello. Welcome home, {this.props.currUser.first_name}.</div>;
     }
-    return <div>Go login </div>;
+    return <Link to='/login'><Button>Get Started</Button></Link>;
   }
 }
 

@@ -13,7 +13,9 @@ class Profile extends Component {
         email: '',
         photo_url: '',
         password: ''
-      }
+      }, 
+      isLoading: true, 
+      updateSuccessful: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,9 +39,10 @@ class Profile extends Component {
 
       let user = await JoblyApi.patchUser({ ...this.state.user, photo_url });
       user.password = '';
-      this.setState({ user });
+      this.setState({ user, updateSuccessful: true, errors: [] });
     } catch (err) {
-      this.setState(st => ({ errors: [...st.errors] }));
+      console.log(err);
+      this.setState({ errors: err, updateSuccessful: false });
     }
   }
 
@@ -52,9 +55,10 @@ class Profile extends Component {
         ? user.photo_url
         : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg';
 
-      this.setState({ user });
+      this.setState({ user, isLoading: false, errors: [], updateSuccessful: false });
     } catch (err) {
-      this.setState(st => ({ errors: [...st.errors] }));
+      console.log(err);
+      this.setState({ errors: err, updateSuccessful: false });
     }
   }
 
@@ -109,8 +113,8 @@ class Profile extends Component {
       <Alert key={error} text={error} type="danger" />
     ));
 
-    if (errorsAlerts.length) {
-      return <div>{errorsAlerts}</div>;
+    if(this.state.isLoading) {
+      return <h1>Loading...</h1>;
     }
 
     return (
@@ -122,6 +126,7 @@ class Profile extends Component {
           <button>Submit</button>
         </form>
         {this.state.errors.length > 0 ? errorsAlerts : null}
+        {this.state.updateSuccessful ? <Alert key='updateSuccessful' text='Profile Updated' type='success' /> : null}
       </div>
     );
   }
